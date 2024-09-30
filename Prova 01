@@ -1,0 +1,133 @@
+<!-- activity_main.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvTotalGastos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Gasto: R$ 0,00"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etDestino"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Destino"/>
+
+    <EditText
+        android:id="@+id/etData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Data (dd/mm/yyyy)"/>
+
+    <EditText
+        android:id="@+id/etValor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor gasto"/>
+
+    <Button
+        android:id="@+id/btnAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adicionar Viagem"
+        android:layout_marginTop="16dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+</LinearLayout>
+
+
+/////////
+
+// ViagemAdapter.java
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
+
+public class ViagemAdapter extends RecyclerView.Adapter<ViagemAdapter.ViewHolder> {
+    private List<Viagem> viagens;
+
+    public ViagemAdapter(List<Viagem> viagens) {
+        this.viagens = viagens;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_3, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Viagem viagem = viagens.get(position);
+        holder.tvDestino.setText(viagem.getDestino());
+        holder.tvData.setText(viagem.getData());
+        holder.tvValor.setText("R$ " + viagem.getValor());
+    }
+
+    @Override
+    public int getItemCount() {
+        return viagens.size();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvDestino, tvData, tvValor;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvDestino = itemView.findViewById(android.R.id.text1);
+            tvData = itemView.findViewById(android.R.id.text2);
+            tvValor = itemView.findViewById(android.R.id.text3);
+        }
+    }
+}
+
+
+////////////
+
+
+// Viagem.java
+public class Viagem {
+    private String destino;
+    private String data;
+    private double valor;
+
+    public Viagem(String destino, String data, double valor) {
+        this.destino = destino;
+        this.data = data;
+        this.valor = valor;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+}
+
+
+
+
+
